@@ -2,6 +2,9 @@ import React from 'react';
 import { Button, Form, Input, message, Modal } from 'antd';
 import { useRequest } from 'ahooks';
 
+type ErrorResponse = {
+    errorMessage: string;
+};
 const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () => void }) => {
     const [form] = Form.useForm();
     const formItemLayout = {
@@ -25,17 +28,27 @@ const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () 
                     },
                     body: JSON.stringify(data),
                 }
-            );
+            ).then((response) => {
+                if (!response.ok) {
+                    return response.json().then((errorData: ErrorResponse) => {
+                        throw { message: errorData.errorMessage };
+                    });
+                }
+                return response;
+            });
+            //usedemail@airwallex.com
         },
         {
             manual: true,
-            onSuccess: () => {
-                message.success('Invitation requested successfully');
+            onSuccess: async (response) => {
+                const data = await response.json();
+                message.success(data);
                 form.resetFields();
                 onHide();
             },
             onError: (error) => {
-                message.error('Failed to request invitation: ' + error.message);
+                console.log(error);
+                message.error(error.message);
             },
         }
     );
