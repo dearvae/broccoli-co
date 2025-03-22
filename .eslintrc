@@ -3,10 +3,18 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended",
-        "plugin:prettier/recommended"
+        "prettier"
     ],
     "plugins": ["prettier"],
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": ["error", {
+            "semi": true,
+            "tabWidth": 4,
+            "singleQuote": true,
+            "trailingComma": "es5",
+            "printWidth": 100,
+            "bracketSpacing": true,
+            "endOfLine": "auto"
+        }]
     }
 }
