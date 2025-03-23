@@ -1,6 +1,5 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import styles from './Layout.module.css';
-import RequestInviteModal from '../RequestInviteModal/RequestInviteModal';
 
 interface LayoutProps {
     children: ReactNode;

@@ -1,6 +1,6 @@
 # React App
 
-A React application bootstrapped with Create React App.
+A simple single-page web application for Broccoli & Co.
 
 ## Quick Start
 
@@ -17,9 +17,8 @@ The app will run at [http://localhost:3000](http://localhost:3000) with hot-relo
 
 ### Run tests
 npm test # Interactive test runner
-npm run test:coverage # Run tests with coverage report
 
 ### Production Build
 npm run build
-The optimized build will be created in the `build` folder, ready for deployment.
+
 

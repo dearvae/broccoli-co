@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Divider, Form, Input, message, Modal } from 'antd';
+import { Button, Divider, Form, Input, Modal } from 'antd';
 import { useRequest } from 'ahooks';
 
 type ErrorResponse = {
@@ -42,12 +42,10 @@ const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () 
                 }
                 return response;
             });
-            //usedemail@airwallex.com
         },
         {
             manual: true,
-            onSuccess: async (response) => {
-                const data = await response.json();
+            onSuccess: async (_) => {
                 Modal.success({
                     title: 'You are successfully registered!',
                 });
@@ -84,7 +82,10 @@ const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () 
                 <Form.Item
                     label="Full Name"
                     name="fullName"
-                    rules={[{ required: true, message: 'Please enter your full name' }]}
+                    rules={[
+                        { required: true, message: 'Please enter your full name' },
+                        { min: 3, message: 'Full name must be at least 3 characters' },
+                    ]}
                 >
                     <Input />
                 </Form.Item>
