@@ -99,7 +99,7 @@ const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () 
                         },
                     ]}
                 >
-                    <Input />
+                    <Input data-testid="email-input" />
                 </Form.Item>
                 <Form.Item
                     label="Confirm Email"
@@ -119,10 +119,10 @@ const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () 
                         }),
                     ]}
                 >
-                    <Input />
+                    <Input data-testid="confirm-email-input" />
                 </Form.Item>
                 <Button type="primary" onClick={onSubmit} loading={loading} className="w-full mb-5">
-                    Submit
+                    {loading ? 'Sending, Please wait...' : 'Submit'}
                 </Button>
             </Form>
         </Modal>
