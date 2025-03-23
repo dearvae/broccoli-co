@@ -1,12 +1,18 @@
-import React from 'react';
-import { Button, Form, Input, message, Modal } from 'antd';
+import React, { useState } from 'react';
+import { Button, Divider, Form, Input, message, Modal } from 'antd';
 import { useRequest } from 'ahooks';
 
 type ErrorResponse = {
     errorMessage: string;
 };
 const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () => void }) => {
+    const [errorMessage, setErrorMessage] = useState('');
     const [form] = Form.useForm();
+    const onCancel = () => {
+        form.resetFields();
+        setErrorMessage('');
+        onHide();
+    };
     const formItemLayout = {
         labelCol: {
             xs: { span: 24 },
@@ -14,7 +20,7 @@ const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () 
         },
         wrapperCol: {
             xs: { span: 24 },
-            sm: { span: 14 },
+            sm: { span: 18 },
         },
     };
     const { loading, run: submitRequest } = useRequest(
@@ -42,13 +48,13 @@ const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () 
             manual: true,
             onSuccess: async (response) => {
                 const data = await response.json();
-                message.success(data);
-                form.resetFields();
-                onHide();
+                Modal.success({
+                    title: 'You are successfully registered!',
+                });
+                onCancel();
             },
             onError: (error) => {
-                console.log(error);
-                message.error(error.message);
+                setErrorMessage(error.message);
             },
         }
     );
@@ -65,7 +71,15 @@ const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () 
             });
     };
     return (
-        <Modal title="Request an invite" visible={visible} onCancel={onHide} footer={null}>
+        <Modal
+            title={<div className="text-center">Request an invite</div>}
+            open={visible}
+            onCancel={onCancel}
+            footer={
+                errorMessage ? <div className="text-red-500 text-center">{errorMessage}</div> : null
+            }
+        >
+            <Divider />
             <Form form={form} {...formItemLayout}>
                 <Form.Item
                     label="Full Name"
@@ -77,7 +91,13 @@ const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () 
                 <Form.Item
                     label="Email"
                     name="email"
-                    rules={[{ required: true, message: 'Please enter your email' }]}
+                    rules={[
+                        { required: true, message: 'Please enter your email' },
+                        {
+                            type: 'email',
+                            message: 'Please enter a valid email address',
+                        },
+                    ]}
                 >
                     <Input />
                 </Form.Item>
@@ -101,11 +121,9 @@ const RequestInviteModal = ({ visible, onHide }: { visible: boolean; onHide: () 
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item>
-                    <Button type="primary" onClick={onSubmit} loading={loading}>
-                        Submit
-                    </Button>
-                </Form.Item>
+                <Button type="primary" onClick={onSubmit} loading={loading} className="w-full mb-5">
+                    Submit
+                </Button>
             </Form>
         </Modal>
     );

@@ -10,9 +10,21 @@ function App() {
     return (
         <>
             <Layout>
-                <h1>A better way to enjoy every day.</h1>
-                <h3>Be the first to know when we launch.</h3>
-                <Button onClick={() => setIsRequestInviteModalOpen(true)}>Request an invite</Button>
+                <div className="text-center flex flex-col items-center justify-center">
+                    <div className="max-w-md gap-8 text-center flex flex-col">
+                        <div className="text-4xl font-bold text-gray-800">
+                            A better way to enjoy every day.
+                        </div>
+                        <div className="text-lg text-gray-600">
+                            Be the first to know when we launch.
+                        </div>
+                        <div>
+                            <Button onClick={() => setIsRequestInviteModalOpen(true)}>
+                                Request an invite
+                            </Button>
+                        </div>
+                    </div>
+                </div>
             </Layout>
             <RequestInviteModal
                 visible={isRequestInviteModalOpen}
